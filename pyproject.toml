@@ -1,0 +1,15 @@
+[project]
+name = "bonksters-admin-analytics"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "django>=5.2.5",
+    "django-extensions>=4.1",
+]
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+]
