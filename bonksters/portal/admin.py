@@ -11,9 +11,20 @@ class MenuItemInline(admin.TabularInline):
 @admin.register(Restaurant)
 class RestaurantAdmin(admin.ModelAdmin):
     """Customizes the display for the Restaurant model in the admin."""
-    list_display = ('name', 'rating', 'delivery_time_minutes', 'formatted_delivery_fee')
+    list_display = ('name', 'rating', 'delivery_time_minutes', 'formatted_delivery_fee', 'is_featured')
+    list_filter = ('is_featured',)
     search_fields = ('name',)
     inlines = [MenuItemInline]
+
+    actions = ['make_featured', 'make_unfeatured']
+
+    @admin.action(description="Mark selected restaurants as featured")
+    def make_featured(self, request, queryset):
+        queryset.update(is_featured=True)
+
+    @admin.action(description="Mark selected restaurants as not featured")
+    def make_unfeatured(self, request, queryset):
+        queryset.update(is_featured=False)
 
     fieldsets = (
         ('Restaurant Information', {
