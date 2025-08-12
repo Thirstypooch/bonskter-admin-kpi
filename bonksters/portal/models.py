@@ -6,6 +6,7 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from django.core.validators import MinValueValidator
 import uuid
 
 class Restaurant(models.Model):
@@ -14,7 +15,7 @@ class Restaurant(models.Model):
     cover_image_url = models.ImageField(upload_to='restaurants/', blank=True, null=True)
     rating = models.DecimalField(max_digits=3, decimal_places=2, blank=True, null=True)
     delivery_time_minutes = models.IntegerField(blank=True, null=True)
-    delivery_fee_cents = models.IntegerField(blank=True, null=True)
+    delivery_fee_cents = models.IntegerField(blank=True, null=True, validators=[MinValueValidator(0)])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_featured = models.BooleanField(default=False)
@@ -33,7 +34,7 @@ class MenuItem(models.Model):
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='menu_items')
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    price_cents = models.IntegerField()
+    price_cents = models.IntegerField(validators=[MinValueValidator(0)])
     image_url = models.ImageField(upload_to='menu_items/', blank=True, null=True)
     category = models.CharField(max_length=100, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
