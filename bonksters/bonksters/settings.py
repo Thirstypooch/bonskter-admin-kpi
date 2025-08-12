@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -121,6 +122,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR.parent / 'static']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -134,6 +136,23 @@ AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
 AWS_S3_ENDPOINT_URL = os.getenv('AWS_S3_ENDPOINT_URL')
-AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'} # Cache files for 1 day
-AWS_LOCATION = '' # Sub-folder within the bucket (optional)
-AWS_DEFAULT_ACL = 'public-read' # Make files publicly accessible
+AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+AWS_LOCATION = ''
+AWS_DEFAULT_ACL = 'public-read'
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Bonkster's Admin",
+    "site_header": "Bonkster's",
+    "site_brand": "Bonkster's Portal",
+    "site_logo": "logo.png",  # You'll need to add a logo file
+    "welcome_sign": "Welcome to the Bonkster's Admin Portal",
+    "copyright": "Bonkster's Food Buddy Ltd.",
+    "topmenu_links": [
+        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "View Live Site", "url": "https://bonksters.vercel.app", "new_window": True},
+        {"model": "portal.Restaurant"},
+    ],
+    "ui_tweaks": {
+        "theme": "darkly",
+    }
+}

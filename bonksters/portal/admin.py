@@ -43,8 +43,12 @@ class RestaurantAdmin(admin.ModelAdmin):
     @admin.display(description='Image')
     def image_preview(self, obj):
         if obj.cover_image_url:
-            return mark_safe(
-                f'<img src="{obj.cover_image_url.url}" width="100" height="50" style="object-fit: cover;" />')
+            url = str(obj.cover_image_url)
+            if url.startswith('http'):
+                return mark_safe(f'<img src="{url}" width="100" height="50" style="object-fit: cover;" />')
+            else:
+                return mark_safe(
+                    f'<img src="{obj.cover_image_url.url}" width="100" height="50" style="object-fit: cover;" />')
         return "No Image"
 
     @admin.display(description='Delivery Fee', ordering='delivery_fee_cents')
@@ -54,18 +58,40 @@ class RestaurantAdmin(admin.ModelAdmin):
             return "Free"
         return f"S/ {obj.delivery_fee_cents / 100:.2f}"
 
+    def get_queryset(self, request):
+        """
+        This is the core of our security model. It filters the restaurants
+        so that non-superusers can only see their own.
+        """
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(owner=request.user)
+
 @admin.register(MenuItem)
 class MenuItemAdmin(admin.ModelAdmin):
     """Customizes the display for the MenuItem model."""
-    list_display = ('name', 'restaurant', 'formatted_price', 'category', 'image_preview')
+    list_display = ('name', 'restaurant_link', 'formatted_price', 'category', 'image_preview')
     list_filter = ('restaurant', 'category')
+    raw_id_fields = ('restaurant' ,)
     search_fields = ('name', 'restaurant__name')
+
+    @admin.display(description='Restaurant')
+    def restaurant_link(self, obj):
+        from django.urls import reverse
+        from django.utils.html import format_html
+
+        link = reverse("admin:portal_restaurant_change", args=[obj.restaurant.id])
+        return format_html('<a href="{}">{}</a>', link, obj.restaurant.name)
 
     @admin.display(description='Image')
     def image_preview(self, obj):
-        """Renders a preview of the menu item's image."""
         if obj.image_url:
-            return mark_safe(f'<img src="{obj.image_url.url}" width="60" height="60" style="object-fit: cover; border-radius: 4px;" />')
+            url = str(obj.image_url)
+            if url.startswith('http'):
+                return mark_safe(f'<img src="{url}" width="60" height="60" style="object-fit: cover; border-radius: 4px;" />')
+            else:
+                return mark_safe(f'<img src="{obj.image_url.url}" width="60" height="60" style="object-fit: cover; border-radius: 4px;" />')
         return "No Image"
 
     @admin.display(description='Price', ordering='price_cents')

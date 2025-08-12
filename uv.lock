@@ -40,6 +40,7 @@ dependencies = [
     { name = "dj-database-url" },
     { name = "django" },
     { name = "django-extensions" },
+    { name = "django-jazzmin" },
     { name = "django-storages" },
     { name = "pillow" },
     { name = "psycopg2-binary" },
@@ -57,6 +58,7 @@ requires-dist = [
     { name = "dj-database-url", specifier = ">=3.0.1" },
     { name = "django", specifier = ">=5.2.5" },
     { name = "django-extensions", specifier = ">=4.1" },
+    { name = "django-jazzmin", specifier = ">=3.0.1" },
     { name = "django-storages", specifier = ">=1.14.6" },
     { name = "pillow", specifier = ">=11.3.0" },
     { name = "psycopg2-binary", specifier = ">=2.9.10" },
@@ -151,6 +153,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/6d/b3/ed0f54ed706ec0b54fd251cc0364a249c6cd6c6ec97f04dc34be5e929eac/django_extensions-4.1.tar.gz", hash = "sha256:7b70a4d28e9b840f44694e3f7feb54f55d495f8b3fa6c5c0e5e12bcb2aa3cdeb", size = 283078, upload-time = "2025-04-11T01:15:39.617Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/64/96/d967ca440d6a8e3861120f51985d8e5aec79b9a8bdda16041206adfe7adc/django_extensions-4.1-py3-none-any.whl", hash = "sha256:0699a7af28f2523bf8db309a80278519362cd4b6e1fd0a8cd4bf063e1e023336", size = 232980, upload-time = "2025-04-11T01:15:37.701Z" },
+]
+
+[[package]]
+name = "django-jazzmin"
+version = "3.0.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/84/96/21b6255e90d92a3eb4e93bea9376635d54258e0353ebb913a55e40ae9254/django_jazzmin-3.0.1.tar.gz", hash = "sha256:67ae148bade41267a09ca8e4352ddefa6121795ebbac238bb9a6564ff841eb1b", size = 2053550, upload-time = "2024-10-08T17:40:59.771Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ad/5b/2f8c4b168e6c41bf1e4b14d787deb23d80f618f0693db913bbe208a4a907/django_jazzmin-3.0.1-py3-none-any.whl", hash = "sha256:12a0a4c1d4fd09c2eef22acf6a1f03112b515ba695c59faa8ea80efc81c1f21b", size = 2125957, upload-time = "2024-10-08T17:40:57.359Z" },
 ]
 
 [[package]]
