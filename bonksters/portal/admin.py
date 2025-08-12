@@ -28,7 +28,7 @@ class RestaurantAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Restaurant Information', {
-            'fields': ('name', 'cover_image_url', 'rating')
+            'fields': ('name', 'cover_image_url', 'rating', 'is_featured')
         }),
         ('Delivery Details', {
             'fields': ('delivery_time_minutes', 'delivery_fee_cents')
