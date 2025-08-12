@@ -11,7 +11,7 @@ import uuid
 class Restaurant(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
-    cover_image_url = models.TextField(blank=True, null=True)
+    cover_image_url = models.ImageField(upload_to='restaurants/', blank=True, null=True)
     rating = models.DecimalField(max_digits=3, decimal_places=2, blank=True, null=True)
     delivery_time_minutes = models.IntegerField(blank=True, null=True)
     delivery_fee_cents = models.IntegerField(blank=True, null=True)
@@ -33,7 +33,7 @@ class MenuItem(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     price_cents = models.IntegerField()
-    image_url = models.TextField(blank=True, null=True)
+    image_url = models.ImageField(upload_to='menu_items/', blank=True, null=True)
     category = models.CharField(max_length=100, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

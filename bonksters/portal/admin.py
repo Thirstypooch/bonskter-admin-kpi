@@ -11,13 +11,40 @@ class MenuItemInline(admin.TabularInline):
 @admin.register(Restaurant)
 class RestaurantAdmin(admin.ModelAdmin):
     """Customizes the display for the Restaurant model in the admin."""
-    list_display = ('name', 'rating', 'delivery_time_minutes', 'delivery_fee_cents')
+    list_display = ('name', 'rating', 'delivery_time_minutes', 'formatted_delivery_fee')
     search_fields = ('name',)
     inlines = [MenuItemInline]
+
+    fieldsets = (
+        ('Restaurant Information', {
+            'fields': ('name', 'cover_image_url', 'rating')
+        }),
+        ('Delivery Details', {
+            'fields': ('delivery_time_minutes', 'delivery_fee_cents')
+        }),
+        ('Timestamps', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',),  # This makes the section collapsible
+        }),
+    )
+
+    readonly_fields = ('created_at', 'updated_at')
+
+    @admin.display(description='Delivery Fee', ordering='delivery_fee_cents')
+    def formatted_delivery_fee(self, obj):
+        """Formats the delivery fee from cents to a PEN string or shows 'Free'."""
+        if obj.delivery_fee_cents is None or obj.delivery_fee_cents == 0:
+            return "Free"
+        return f"S/ {obj.delivery_fee_cents / 100:.2f}"
 
 @admin.register(MenuItem)
 class MenuItemAdmin(admin.ModelAdmin):
     """Customizes the display for the MenuItem model."""
-    list_display = ('name', 'restaurant', 'price_cents', 'category')
+    list_display = ('name', 'restaurant', 'formatted_price', 'category')
     list_filter = ('restaurant', 'category')
     search_fields = ('name', 'restaurant__name')
+
+    @admin.display(description='Price', ordering='price_cents')
+    def formatted_price(self, obj):
+        """Formats the price from cents to a dollar string."""
+        return f"S/ {obj.price_cents / 100:.2f}"
